@@ -19,12 +19,17 @@ public class Cellule {
 
         while (setted == false) {
             randValue = possibleValue.get(shuffleIndex);
-            boolean isLineOk = Matrice.checkLine(matrice, lineIndex, randValue);
-            boolean isColumnOk = Matrice.checkColumn(matrice, columnIndex, randValue);
-            boolean isCaseOk = Matrice.checkCase(matrice, lineIndex, columnIndex, randValue);
+            Boolean isLineOk = Matrice.checkLine(matrice, lineIndex, randValue);
+            Boolean isColumnOk = Matrice.checkColumn(matrice, columnIndex, randValue);
+            Boolean isCaseOk = Matrice.checkCase(matrice, lineIndex, columnIndex, randValue);
             if (isLineOk && isColumnOk && isCaseOk) {
                 setted = true;
-                System.out.println("true");
+                System.out.println("setted");
+            } else {
+                Matrice.showPartialMatrice(matrice);
+                // System.out.print(randValue + ": ");
+                // System.out.print(Boolean.toString(isLineOk) + Boolean.toString(isColumnOk) + Boolean.toString(isCaseOk));
+                // System.out.println();
             }
             shuffleIndex = (shuffleIndex + 1) % 9;
         }

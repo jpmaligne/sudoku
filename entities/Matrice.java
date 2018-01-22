@@ -26,6 +26,22 @@ public class Matrice {
         }
     }
 
+    public static void showPartialMatrice(Cellule[][] matrice) {
+        for (int i = 0; i < 9; i++) {  // line
+            for (int j = 0; j < 9; j++) {  // column
+                if(matrice[i][j] != null) {
+                    if(j == 0) {
+                        System.out.print(i + " | ");
+                    }
+                    System.out.print(matrice[i][j].getCorrectValue());
+                }
+                if (j == 8) {
+                    System.out.println("\n");
+                }
+            }
+        }
+    }
+
     public static boolean checkLine(Cellule[][] matrice, int lineIndex, int value) {
         for (Cellule cellule : matrice[lineIndex]) {
             if (cellule != null && cellule.correctValue == value){
@@ -65,12 +81,12 @@ public class Matrice {
         ArrayList<Integer> indexes = new ArrayList<Integer>();
         int modulo = index % 3;
         if (modulo == 1) {
-            indexes = new ArrayList<Integer>(Arrays.asList(index, index + 1, index - 1));
+            indexes = new ArrayList<Integer>(Arrays.asList(index - 1, index, index + 1));
         }
         else if (modulo == 2) {
-            indexes = new ArrayList<Integer>(Arrays.asList(index, index - 1, index - 2));
+            indexes = new ArrayList<Integer>(Arrays.asList(index - 2, index - 1, index));
         }
-        if (modulo == 0) {
+        else {  // modulo == 0
             indexes = new ArrayList<Integer>(Arrays.asList(index, index + 1, index + 2));
         }
         return indexes;
