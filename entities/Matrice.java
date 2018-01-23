@@ -5,17 +5,30 @@ import entities.Cellule;
 public class Matrice {
     private Cellule[][] matrice = new Cellule[9][9];
 
-    public void initialize() {
-        for (int i = 0; i < 9; i++) {  // line
+    public void initialize(int lineIndex) {
+        int resetCount = 0;
+        for (int i = lineIndex; i < 9; i++) {  // line
             for (int j = 0; j < 9; j++) {  // column
                 Cellule aCell = new Cellule();
-                this.matrice[i][j] = aCell.setCellule(this.matrice, i, j);
+                this.matrice[i][j] = aCell;
+                Boolean setted = aCell.setCellule(this, i, j);
+                if (!setted) {
+                    j = -1;
+                    this.showPartialMatrice();
+                    this.resetLine(i);
+                    resetCount ++;
+                    if (resetCount > 8) {
+                        this.resetLine(i-2);
+                        this.resetLine(i-1);
+                        i = i - 2;
+                        resetCount = 0;
+                    }
+                }
             }
         }
     }
 
     public void showMatrice() {
-        // System.out.println(this.matrice[1][1].correctValue);
         for (int i = 0; i < 9; i++) {  // line
             for (int j = 0; j < 9; j++) {  // column
                 System.out.print(this.matrice[i][j].getCorrectValue());
@@ -26,14 +39,14 @@ public class Matrice {
         }
     }
 
-    public static void showPartialMatrice(Cellule[][] matrice) {
+    public void showPartialMatrice() {
         for (int i = 0; i < 9; i++) {  // line
             for (int j = 0; j < 9; j++) {  // column
-                if(matrice[i][j] != null) {
+                if(this.matrice[i][j] != null) {
                     if(j == 0) {
                         System.out.print(i + " | ");
                     }
-                    System.out.print(matrice[i][j].getCorrectValue());
+                    System.out.print(this.matrice[i][j].getCorrectValue());
                 }
                 if (j == 8) {
                     System.out.println("\n");
@@ -42,8 +55,12 @@ public class Matrice {
         }
     }
 
-    public static boolean checkLine(Cellule[][] matrice, int lineIndex, int value) {
-        for (Cellule cellule : matrice[lineIndex]) {
+    public void resetLine(int lineIndex) {
+        this.matrice[lineIndex] = new Cellule[9];
+    }
+
+    public Boolean checkLine(int lineIndex, int value) {
+        for (Cellule cellule : this.matrice[lineIndex]) {
             if (cellule != null && cellule.correctValue == value){
                 return false;
             }
@@ -51,21 +68,21 @@ public class Matrice {
         return true;
     }
 
-    public static boolean checkColumn(Cellule[][] matrice, int columnIndex, int value) {
+    public Boolean checkColumn(int columnIndex, int value) {
         for(int i = 0; i < 9; i++) {
-            if(matrice[i][columnIndex] != null && matrice[i][columnIndex].correctValue == value) {
+            if(this.matrice[i][columnIndex] != null && this.matrice[i][columnIndex].correctValue == value) {
                 return false;
             }
         }
         return true;
     }
 
-    public static boolean checkCase(Cellule[][] matrice, int lineIndex, int columnIndex, int value) {
+    public Boolean checkCase(int lineIndex, int columnIndex, int value) {
         ArrayList<Integer> linIndexes = Matrice.getIndexesToAnalyse(lineIndex);
         ArrayList<Integer> colIndexes = Matrice.getIndexesToAnalyse(columnIndex);
         for (int lIndex: linIndexes) {
             for (int cIndex: colIndexes) {
-                if (matrice[lIndex][cIndex] != null && matrice[lIndex][cIndex].correctValue == value) {
+                if (this.matrice[lIndex][cIndex] != null && this.matrice[lIndex][cIndex].correctValue == value) {
                     return false;
                 }
             }

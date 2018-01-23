@@ -10,34 +10,32 @@ public class Cellule {
         return correctValue == value;
     }
 
-    public Cellule setCellule(Cellule[][] matrice, int lineIndex, int columnIndex) {
+    public Boolean setCellule(Matrice matrice, int lineIndex, int columnIndex) {
         ArrayList<Integer> possibleValue = new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
         Collections.shuffle(possibleValue);
         int shuffleIndex = 0;
-        boolean setted = false;
+        Boolean setted = false;
         int randValue = 0;
 
-        while (setted == false) {
+        while (setted == false && shuffleIndex < 9) {
             randValue = possibleValue.get(shuffleIndex);
-            Boolean isLineOk = Matrice.checkLine(matrice, lineIndex, randValue);
-            Boolean isColumnOk = Matrice.checkColumn(matrice, columnIndex, randValue);
-            Boolean isCaseOk = Matrice.checkCase(matrice, lineIndex, columnIndex, randValue);
+            Boolean isLineOk = matrice.checkLine(lineIndex, randValue);
+            Boolean isColumnOk = matrice.checkColumn(columnIndex, randValue);
+            Boolean isCaseOk = matrice.checkCase(lineIndex, columnIndex, randValue);
             if (isLineOk && isColumnOk && isCaseOk) {
                 setted = true;
-                System.out.println("setted");
-            } else {
-                Matrice.showPartialMatrice(matrice);
-                // System.out.print(randValue + ": ");
-                // System.out.print(Boolean.toString(isLineOk) + Boolean.toString(isColumnOk) + Boolean.toString(isCaseOk));
-                // System.out.println();
+                this.correctValue = randValue;
             }
-            shuffleIndex = (shuffleIndex + 1) % 9;
+            shuffleIndex = (shuffleIndex + 1);
         }
-        this.correctValue = randValue;
-        return this;
+        return setted;
     }
 
     protected int getCorrectValue() {
-        return this.correctValue;
+        if(this.correctValue != 0) {
+            return this.correctValue;
+        } else {
+            return -1;
+        }
     }
 }

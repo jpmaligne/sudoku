@@ -6,7 +6,7 @@ public class jeu extends Matrice {
         System.out.println("test");
         Matrice matrice = new Matrice();
         // System.out.println(matrice[0][1]);
-        matrice.initialize();
+        matrice.initialize(0);
         matrice.showMatrice();
 
     }
