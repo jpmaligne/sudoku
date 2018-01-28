@@ -1,13 +1,13 @@
 import entities.Matrice;
-public class jeu extends Matrice {
+import entities.Cellule;
+import graffities.*;
+public class jeu {
 
 
     public static void main(String[] args) {
         System.out.println("test");
         Matrice matrice = new Matrice();
-        // System.out.println(matrice[0][1]);
-        matrice.initialize(0);
-        matrice.showMatrice();
-
+        Cellule[][] elMatrice = matrice.initialize(0);
+        MatriceG.showMatrice(elMatrice);
     }
 }

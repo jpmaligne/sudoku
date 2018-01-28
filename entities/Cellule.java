@@ -31,7 +31,7 @@ public class Cellule {
         return setted;
     }
 
-    protected int getCorrectValue() {
+    public int getCorrectValue() {
         if(this.correctValue != 0) {
             return this.correctValue;
         } else {

@@ -1,11 +1,20 @@
 package entities;
 import java.util.*;
 import entities.Cellule;
+import graffities.*;
 
+/**
+ * Matrice class is our Sudoku grid.
+ * As it contains 9 lines & 9 columns, it's a 2D array of Cellule
+ * 
+ * See also class Cellule.
+ */
 public class Matrice {
-    private Cellule[][] matrice = new Cellule[9][9];
 
-    public void initialize(int lineIndex) {
+    /*The 2 dimension array of Cellule*/
+    protected Cellule[][] matrice = new Cellule[9][9];
+
+    public Cellule[][] initialize(int lineIndex) {
         int resetCount = 0;
         for (int i = lineIndex; i < 9; i++) {  // line
             for (int j = 0; j < 9; j++) {  // column
@@ -14,7 +23,7 @@ public class Matrice {
                 Boolean setted = aCell.setCellule(this, i, j);
                 if (!setted) {
                     j = -1;
-                    this.showPartialMatrice();
+                    MatriceG.showPartialMatrice(this.matrice);
                     this.resetLine(i);
                     resetCount ++;
                     if (resetCount > 8) {
@@ -26,33 +35,7 @@ public class Matrice {
                 }
             }
         }
-    }
-
-    public void showMatrice() {
-        for (int i = 0; i < 9; i++) {  // line
-            for (int j = 0; j < 9; j++) {  // column
-                System.out.print(this.matrice[i][j].getCorrectValue());
-                if (j == 8) {
-                    System.out.println("\n");
-                }
-            }
-        }
-    }
-
-    public void showPartialMatrice() {
-        for (int i = 0; i < 9; i++) {  // line
-            for (int j = 0; j < 9; j++) {  // column
-                if(this.matrice[i][j] != null) {
-                    if(j == 0) {
-                        System.out.print(i + " | ");
-                    }
-                    System.out.print(this.matrice[i][j].getCorrectValue());
-                }
-                if (j == 8) {
-                    System.out.println("\n");
-                }
-            }
-        }
+        return this.matrice;
     }
 
     public void resetLine(int lineIndex) {
