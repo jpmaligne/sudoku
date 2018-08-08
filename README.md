@@ -8,7 +8,7 @@ Install jdk :
 `sudo apt install openjdk-11-jdk-headless`
 
 Compile files :
-`javac jeu.java` - `javac entities/Cellules.java` - ...
+`javac entities/*.java graffities/*.java jeu.java`
 
 Start game :
 `java jeu`

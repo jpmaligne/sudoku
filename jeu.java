@@ -8,5 +8,6 @@ public class jeu {
         Matrice matrice = new Matrice();
         Cellule[][] elMatrice = matrice.initialize(0);
         MatriceG.showMatrice(elMatrice);
+        MatriceG.drawGridLayout(elMatrice);
     }
 }

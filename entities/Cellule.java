@@ -2,12 +2,12 @@ package entities;
 import java.util.*;
 
 public class Cellule {
-    private int value;
+    private int temporaryValue;
     private Boolean hidden = false;
     public int correctValue;
 
     public boolean isCorrect() {
-        return correctValue == value;
+        return correctValue == temporaryValue;
     }
 
     public Boolean setCellule(Matrice matrice, int lineIndex, int columnIndex) {
@@ -49,6 +49,10 @@ public class Cellule {
         } else {
             return -1;
         }
+    }
+
+    public int getTemporaryValue() {
+        return this.temporaryValue;
     }
 
     public Boolean isVisible() {
