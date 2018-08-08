@@ -2,8 +2,8 @@ package entities;
 import java.util.*;
 
 public class Cellule {
-    private int pos; //pos0= first top left, 1=top middle 7=bottom middel
     private int value;
+    private Boolean hidden = false;
     public int correctValue;
 
     public boolean isCorrect() {
@@ -11,7 +11,19 @@ public class Cellule {
     }
 
     public Boolean setCellule(Matrice matrice, int lineIndex, int columnIndex) {
-        ArrayList<Integer> possibleValue = new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
+        ArrayList<Integer> possibleValue = new ArrayList<Integer>(
+            Arrays.asList(
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+            )
+        );
         Collections.shuffle(possibleValue);
         int shuffleIndex = 0;
         Boolean setted = false;
@@ -37,5 +49,12 @@ public class Cellule {
         } else {
             return -1;
         }
+    }
+
+    public Boolean isVisible() {
+        return !this.hidden;
+    }
+    public void hideCell() {
+        this.hidden = true;
     }
 }

@@ -11,8 +11,17 @@ import graffities.*;
  */
 public class Matrice {
 
-    /*The 2 dimension array of Cellule*/
+    // The 2 dimension array of cells
     protected Cellule[][] matrice = new Cellule[9][9];
+
+    // Set the difficulty here.
+    // Format : (label, number of hidden cells)
+    private HashMap<String, Integer> level = new HashMap<String, Integer>();
+    {
+        level.put("hard", 71);
+        level.put("medium", 65);
+        level.put("easy", 51);
+    }
 
     public Cellule[][] initialize(int lineIndex) {
         int resetCount = 0;
@@ -21,9 +30,10 @@ public class Matrice {
                 Cellule aCell = new Cellule();
                 this.matrice[i][j] = aCell;
                 Boolean setted = aCell.setCellule(this, i, j);
+                // Below is ugly, to modify ... one day
                 if (!setted) {
                     j = -1;
-                    MatriceG.showPartialMatrice(this.matrice);
+                    // MatriceG.showPartialMatrice(this.matrice);
                     this.resetLine(i);
                     resetCount ++;
                     if (resetCount > 8) {
@@ -35,7 +45,21 @@ public class Matrice {
                 }
             }
         }
+        this.hideSomeCells("easy");
         return this.matrice;
+    }
+
+    private void hideSomeCells(String difficulty) {
+        Integer numberCellsToHide = this.level.get(difficulty);
+        for (int i = 0; i < numberCellsToHide; i++) {
+            int x = (int)(Math.random() * 9);
+            int y = (int)(Math.random() * 9);
+            if (this.matrice[x][y].isVisible()) {
+                this.matrice[x][y].hideCell();
+                continue;
+            }
+            i = i - 1; // avoid duplicates
+        }
     }
 
     public void resetLine(int lineIndex) {
@@ -44,7 +68,10 @@ public class Matrice {
 
     public Boolean checkLine(int lineIndex, int value) {
         for (Cellule cellule : this.matrice[lineIndex]) {
-            if (cellule != null && cellule.correctValue == value){
+            if (
+                cellule != null &&
+                cellule.correctValue == value
+            ){
                 return false;
             }
         }
@@ -53,7 +80,10 @@ public class Matrice {
 
     public Boolean checkColumn(int columnIndex, int value) {
         for(int i = 0; i < 9; i++) {
-            if(this.matrice[i][columnIndex] != null && this.matrice[i][columnIndex].correctValue == value) {
+            if(
+                this.matrice[i][columnIndex] != null &&
+                this.matrice[i][columnIndex].correctValue == value
+            ) {
                 return false;
             }
         }
@@ -65,7 +95,10 @@ public class Matrice {
         ArrayList<Integer> colIndexes = Matrice.getIndexesToAnalyse(columnIndex);
         for (int lIndex: linIndexes) {
             for (int cIndex: colIndexes) {
-                if (this.matrice[lIndex][cIndex] != null && this.matrice[lIndex][cIndex].correctValue == value) {
+                if (
+                    this.matrice[lIndex][cIndex] != null &&
+                    this.matrice[lIndex][cIndex].correctValue == value
+                ) {
                     return false;
                 }
             }
@@ -81,13 +114,31 @@ public class Matrice {
         ArrayList<Integer> indexes = new ArrayList<Integer>();
         int modulo = index % 3;
         if (modulo == 1) {
-            indexes = new ArrayList<Integer>(Arrays.asList(index - 1, index, index + 1));
+            indexes = new ArrayList<Integer>(
+                Arrays.asList(
+                    index - 1,
+                    index,
+                    index + 1
+                )
+            );
         }
         else if (modulo == 2) {
-            indexes = new ArrayList<Integer>(Arrays.asList(index - 2, index - 1, index));
+            indexes = new ArrayList<Integer>(
+                Arrays.asList(
+                    index - 2,
+                    index - 1,
+                    index
+                )
+            );
         }
         else {  // modulo == 0
-            indexes = new ArrayList<Integer>(Arrays.asList(index, index + 1, index + 2));
+            indexes = new ArrayList<Integer>(
+                Arrays.asList(
+                    index,
+                    index + 1,
+                    index + 2
+                )
+            );
         }
         return indexes;
     }

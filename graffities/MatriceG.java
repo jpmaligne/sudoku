@@ -13,7 +13,12 @@ public class MatriceG extends Matrice{
     public static void showMatrice(Cellule[][] zeMatrice) {
         for (int i = 0; i < 9; i++) {  // line
             for (int j = 0; j < 9; j++) {  // column
-                System.out.print(zeMatrice[i][j].getCorrectValue());
+                Cellule zeCell = zeMatrice[i][j];
+                if (zeCell.isVisible()){
+                    System.out.print(zeMatrice[i][j].getCorrectValue());
+                } else {
+                    System.out.print('*');
+                }
                 if (j == 8) {
                     System.out.println("\n");
                 }
