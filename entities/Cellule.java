@@ -7,7 +7,10 @@ public class Cellule {
     public int correctValue;
 
     public boolean isCorrect() {
-        return correctValue == temporaryValue;
+        if (this.hidden) {
+            return false;
+        }
+        return this.correctValue == this.temporaryValue;
     }
 
     public Boolean setCellule(Matrice matrice, int lineIndex, int columnIndex) {
@@ -31,12 +34,13 @@ public class Cellule {
 
         while (setted == false && shuffleIndex < 9) {
             randValue = possibleValue.get(shuffleIndex);
-            Boolean isLineOk = matrice.checkLine(lineIndex, randValue);
-            Boolean isColumnOk = matrice.checkColumn(columnIndex, randValue);
-            Boolean isCaseOk = matrice.checkCase(lineIndex, columnIndex, randValue);
+            Boolean isLineOk = matrice.checkLineOnInit(lineIndex, randValue);
+            Boolean isColumnOk = matrice.checkColumnOnInit(columnIndex, randValue);
+            Boolean isCaseOk = matrice.checkCaseOnInit(lineIndex, columnIndex, randValue);
             if (isLineOk && isColumnOk && isCaseOk) {
                 setted = true;
                 this.correctValue = randValue;
+                this.temporaryValue = this.correctValue;
             }
             shuffleIndex = (shuffleIndex + 1);
         }
@@ -55,10 +59,15 @@ public class Cellule {
         return this.temporaryValue;
     }
 
+    public void setTemporaryValue(int tempVal) {
+        this.temporaryValue = tempVal;
+    }
+
     public Boolean isVisible() {
         return !this.hidden;
     }
     public void hideCell() {
+        this.temporaryValue = 0;
         this.hidden = true;
     }
 }
